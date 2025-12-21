@@ -3,18 +3,20 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  service: "gmail",
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL,
+    user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
 
 const sendMail = async (to, otp) => {
   try {
+    
     await transporter.sendMail({
+      
       from: `"Regium Innovations" <${process.env.EMAIL}>`,
       to: to,
       subject: "Your Login OTP",
@@ -38,7 +40,7 @@ const sendMail = async (to, otp) => {
         </div>
       `,
     });
-    console.log("OTP sent successfully to", to);
+  console.log("OTP:", otp);
   } catch (error) {
     console.error("Error sending OTP email:", error);
   }

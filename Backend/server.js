@@ -1,22 +1,63 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
+import authRouter from "./routes/authRoutes.js";
 
+// 1. Load Environment Variables
 dotenv.config();
+
+// 2. Connect to Database
 connectDB();
 
 const app = express();
 
-//middlewares
-app.use(cors());
-app.use(express.json());
+// 3. CORS Configuration
 
-app.get("/", (req,res) => {
-    res.send("Backend Server is running");
+const allowedOrigins = [
+  "http://localhost:5173", 
+  "http://localhost:5174", 
+   
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Required for cookies/sessions
+    optionsSuccessStatus: 200,
+  })
+);
+
+
+// 5. Standard Middlewares
+app.use(express.json()); // Parses incoming JSON requests
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded data
+app.use(cookieParser()); // Allows server to read/set cookies
+
+// 6. Routes
+app.use("/api/auth", authRouter);
+
+// Test Route
+app.get("/", (req, res) => {
+  res.send("Regium Innovations Backend Server is running...");
 });
 
+
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
-})
+  console.log(`
+🚀 Server is flying on port ${PORT}
+🌍 Mode: ${process.env.NODE_ENV || 'development'}
+  `);
+});
