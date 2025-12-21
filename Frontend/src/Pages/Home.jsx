@@ -1,5 +1,5 @@
 import React from "react";
-import pic from "../assets/pic.jpg";
+import pic from "../assets/piyush.jpeg";
 import car from "../assets/car.webp";
 import waste from "../assets/waste.jpg";
 import chemical from "../assets/chemical.jpg";
@@ -32,7 +32,7 @@ const Home = () => {
           <img
             src={pic} // replace with actual image
             alt="Founder - Piyush Kumar"
-            className="w-72 h-72 object-cover rounded-xl grayscale"
+            className="w-72 h-72 object-cover rounded-xl "
           />
         </div>
 
