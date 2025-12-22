@@ -1,8 +1,26 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.jpg";
+import { setUserData } from "../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import api from "../utils/api.js";
 
 const Navbar = () => {
+  const {userData} = useSelector((state=>state.user))
+  const dispatch = useDispatch()
+
+  const handleLogout = async () => {
+    try {
+      const result = await api.post("/api/auth/logout");
+      console.log(result.data);
+      dispatch(setUserData(null));
+      toast.success("Logout successful")
+    } catch (error) {
+      console.log(error?.response);
+      toast.error(error?.response);
+    }
+  }
   return (
     <header className="w-full bg-white">
       <nav className="max-w-6xl mx-auto h-20 px-6 flex  items-center justify-center gap-60">
@@ -47,7 +65,8 @@ const Navbar = () => {
           ))}
 
           {/* Login */}
-          <Link
+          {!userData ? (
+             <Link
             to="/login"
             className="
               ml-4 px-4 py-1.5
@@ -60,6 +79,21 @@ const Navbar = () => {
           >
             Login
           </Link>
+          ):(
+             <button
+             onClick={handleLogout}
+            className="
+              ml-4 px-4 py-1.5
+              border border-black
+              text-black
+              rounded-full
+              hover:bg-black hover:text-white
+              transition-all duration-300
+            "
+          >
+            Logout
+          </button>
+          )}
 
         </div>
       </nav>

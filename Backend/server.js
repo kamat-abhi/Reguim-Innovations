@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRouter from "./routes/authRoutes.js";
+import userRouter from "./routes/userRoute.js";
 
 // 1. Load Environment Variables
 dotenv.config();
@@ -46,6 +47,7 @@ app.use(cookieParser()); // Allows server to read/set cookies
 
 // 6. Routes
 app.use("/api/auth", authRouter);
+app.use("api/user", userRouter)
 
 // Test Route
 app.get("/", (req, res) => {
