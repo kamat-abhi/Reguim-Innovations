@@ -14,12 +14,12 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
 
-    //   myProduct: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref:"userProduct",
-    //     }
-    //   ]
+      myProduct: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Product",
+        }
+      ],
     googleId: {
       type: String,
       unique: true,
