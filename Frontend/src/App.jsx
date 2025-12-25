@@ -8,6 +8,8 @@ import Service from "./Pages/Service.jsx";
 import Navbar from "./components/Navbar.jsx";
 import { Outlet } from "react-router-dom";
 import AddProduct from "./Pages/addProduct.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import getAllProducts from "./customHooks/getAllProduct.js";
 
@@ -25,6 +27,7 @@ const LayoutWithNavbar = () => {
 function App() {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route element={<LayoutWithNavbar />}>
           <Route path="/" element={<Home />} />

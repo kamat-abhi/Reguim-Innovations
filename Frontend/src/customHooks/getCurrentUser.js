@@ -1,7 +1,7 @@
 import React from 'react'
 import {useDispatch} from "react-redux"
 import api from "../utils/api.js"
-import { setUserData, setLaoding } from '../redux/userSlice.js'
+import { setUserData, setLoading } from '../redux/userSlice.js'
 import { useEffect } from 'react'
 
 
@@ -10,7 +10,7 @@ const useGetCurrentUser = () => {
     
     useEffect(() => {
         const fetchUser = async () => {
-            dispatch(setLaoding(true));
+            dispatch(setLoading(true));
             try {
                 const result = await api.get("/api/user/getcurrentuser");
                 dispatch(setUserData(result.data));
@@ -18,11 +18,11 @@ const useGetCurrentUser = () => {
                 console.log(error);
                 dispatch(setUserData(null));
             } finally {
-                dispatch(setLaoding(false));
+                dispatch(setLoading(false));
             }
         }
-        fetchUser()
-    })
+            fetchUser()
+        }, [])
 }
 
 export default useGetCurrentUser

@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoutes.js";
+import paymentRouter from "./routes/paymentRoute.js";
 
 // 1. Load Environment Variables
 dotenv.config();
@@ -49,6 +50,7 @@ app.use(cookieParser()); // Allows server to read/set cookies
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter)
 app.use("/api/product", productRouter)
+app.use("/api/payment", paymentRouter);
 
 // Test Route
 app.get("/", (req, res) => {
