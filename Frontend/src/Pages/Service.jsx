@@ -60,7 +60,7 @@ const Service = () => {
             }
           );
 
-          toast.success(verifyRes.data.message);
+          toast.success("payment successful");
         } catch (error) {
           toast.error("Payment verification failed");
           console.error(error);
