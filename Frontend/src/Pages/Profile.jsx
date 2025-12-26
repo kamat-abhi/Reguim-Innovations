@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import Cropper from "react-easy-crop";
 import { FaCamera } from "react-icons/fa";
-import pic from "../assets/piyush.jpeg";
 import { getCroppedImg } from "../utils/cropImage";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const [image, setImage] = useState(pic);
+  const [image, setImage] = useState(null);
   const [tempImage, setTempImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [openCrop, setOpenCrop] = useState(false);
+  const { userData } = useSelector((state) => state.user);
 
   /* Drag state */
   const [dragActive, setDragActive] = useState(false);
@@ -53,7 +54,7 @@ const Profile = () => {
   const handleCropSave = async () => {
     const croppedImg = await getCroppedImg(tempImage, croppedAreaPixels);
     setImage(croppedImg);
-    URL.revokeObjectURL(tempImage);
+    if (tempImage) URL.revokeObjectURL(tempImage);
     setOpenCrop(false);
   };
 
@@ -92,7 +93,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-14 items-center">
+    <div className="w-180 h-110 mx-auto px-6 py-20 grid md:grid-cols-2 gap-14 items-center">
       {/* Image Section */}
       <div className="flex justify-center">
         <div
@@ -104,10 +105,10 @@ const Profile = () => {
           onDrop={handleDrop}
         >
           <img
-            src={image}
+            src={image || userData.profilePic || "/avatar.png"}
             alt="Profile"
             draggable={false}
-            className="w-72 h-72 object-cover rounded-xl pointer-events-none"
+            className="w-50 h-50 object-cover rounded-xl pointer-events-none"
           />
 
           {/* Drag Overlay */}
@@ -133,11 +134,11 @@ const Profile = () => {
       {/* Content */}
       <div>
         <h2 className="text-3xl font-semibold">
-          Piyush Kumar
+          {userData?.name || "User"}
         </h2>
          <hr className="border-gray-200 mt-2 w-70" />
         <p className="mt-1 text-gray-700 text-sm">
-          abhishekkamat142@gmil
+          {userData?.email || ""}
         </p>
       </div>
 
